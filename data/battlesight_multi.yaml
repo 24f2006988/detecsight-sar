@@ -1,0 +1,26 @@
+# BattleSight AR — VisDrone (aerial) + WiderPerson (ground-level personnel)
+# Same 4-class taxonomy as battlesight.yaml; WiderPerson only contributes to
+# class 0 (personnel), strengthening detection for helmet-cam / static-camera
+# sources that VisDrone's aerial-only imagery doesn't represent.
+
+# Anchored at VisDrone and reaching its sibling datasets with `../`, so this
+# file names no drive and no absolute directory -- it resolves against whatever
+# `yolo settings datasets_dir` points at. Set that once per machine.
+#
+# `path: .` does NOT work here: "." always exists relative to cwd, so
+# ultralytics keeps it and never consults datasets_dir. A name that does not
+# exist in cwd (like VisDrone) is what makes it fall through to the setting.
+path: VisDrone
+train:
+  - images/train                 # VisDrone
+  - ../WiderPerson/images/train
+val:
+  - images/val                   # VisDrone
+  - ../WiderPerson/images/val
+test: images/test                # VisDrone; WiderPerson's test split has no ground truth
+
+names:
+  0: personnel
+  1: two_wheeler
+  2: light_vehicle
+  3: heavy_vehicle
